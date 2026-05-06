@@ -4,6 +4,28 @@ This file is **non-negotiable**. Every meaningful change must be logged here.
 
 ---
 
+## 2026-05-06 (s3) — Email redesign + Sr. Salma demoted to teacher
+
+**What:**
+- Redesigned both attendance and daily-progress email edge functions to look clean/professional
+- Both emails now use gradient green headers, status-colored banners, card layout, and DUM logo
+- `attendance-absence-email`: new `buildAttendanceEmailHtml()` with per-status color coding (present=green, absent=red, late=amber, excused=purple, early_departure=orange, sick=cyan)
+- `daily-progress-email`: redesigned guardian email (gradient header, student name card, styled tables), principal/admin summary email (gradient header, class sections, report meta, CTA button)
+- Both functions deployed live (attendance v45, daily-progress v55)
+- **Sr. Salma demoted**: `role = 'teacher'`, `section = 'women'` — she is a teacher for the girls side, not an admin; section filter still restricts her to women students
+
+**DB change (applied to live):**
+```sql
+UPDATE public.profiles SET role = 'teacher' WHERE id = '61d50d06-442b-4269-923f-818d7ae861f7';
+UPDATE auth.users SET raw_user_meta_data = raw_user_meta_data || '{"role": "teacher"}'::jsonb WHERE id = '61d50d06-442b-4269-923f-818d7ae861f7';
+```
+
+**Files changed:**
+- `supabase/functions/attendance-absence-email/index.ts` — new `buildAttendanceEmailHtml()` function, STATUS_STYLES_MAP
+- `supabase/functions/daily-progress-email/index.ts` — redesigned guardian email + principalEmailHtml
+
+---
+
 ## 2026-05-06 (s2) — Section-scoped admin: Sr. Salma limited to women/Saint-Laurent students
 
 **What:**
