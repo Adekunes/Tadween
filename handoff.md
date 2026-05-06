@@ -4,6 +4,21 @@ This file is **non-negotiable**. Every meaningful change must be logged here.
 
 ---
 
+## 2026-05-06 (s4) — Ibrahim Toure demoted to teacher
+
+**What:**
+- Ibrahim Toure (`id: 6f605396-a882-4ddc-bdf7-3df137a66501`) changed from `admin` → `teacher`
+- He already had `section = 'Henri-Bourassa'` so he is now scoped to men/Henri-Bourassa students only
+- `auth.users.raw_user_meta_data` role updated to match
+
+**SQL applied (live):**
+```sql
+UPDATE public.profiles SET role = 'teacher' WHERE id = '6f605396-a882-4ddc-bdf7-3df137a66501';
+UPDATE auth.users SET raw_user_meta_data = raw_user_meta_data || '{"role": "teacher"}'::jsonb WHERE id = '6f605396-a882-4ddc-bdf7-3df137a66501';
+```
+
+---
+
 ## 2026-05-06 (s3) — Email redesign + Sr. Salma demoted to teacher
 
 **What:**
