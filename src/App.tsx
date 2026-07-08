@@ -173,7 +173,7 @@ function App() {
           <Route
             path="/activity"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requireAdmin>
                 <DashboardLayout>
                   <Activity />
                 </DashboardLayout>
@@ -245,9 +245,9 @@ function App() {
               path="/teacher-portal"
               element={<Navigate to="/dashboard" replace />}
             />
-            <Route path="/students" element={<Students />} />
-            <Route path="/students/:id" element={<StudentDetail />} />
-            <Route path="/students/:id/report-card" element={<HifzReportCard />} />
+            <Route path="/students" element={<ProtectedRoute requireTeacher><Students /></ProtectedRoute>} />
+            <Route path="/students/:id" element={<ProtectedRoute requireTeacher><StudentDetail /></ProtectedRoute>} />
+            <Route path="/students/:id/report-card" element={<ProtectedRoute requireTeacher><HifzReportCard /></ProtectedRoute>} />
             <Route
               path="/teachers"
               element={
@@ -264,8 +264,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/classes" element={<Classes />} />
-            <Route path="/progress-book" element={<ProgressBook />} />
+            <Route path="/classes" element={<ProtectedRoute requireTeacher><Classes /></ProtectedRoute>} />
+            <Route path="/progress-book" element={<ProtectedRoute requireTeacher><ProgressBook /></ProtectedRoute>} />
             <Route path="/add-parent" element={<ProtectedRoute requireTeacher><TeacherAddParent /></ProtectedRoute>} />
             <Route
               path="/attendance"
@@ -291,8 +291,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/schedule" element={<TeacherSchedule />} />
-            <Route path="/calendar" element={<SchoolCalendar />} />
+            <Route path="/schedule" element={<ProtectedRoute requireTeacher><TeacherSchedule /></ProtectedRoute>} />
+            <Route path="/calendar" element={<ProtectedRoute requireTeacher><SchoolCalendar /></ProtectedRoute>} />
             <Route
               path="/teacher-accounts"
               element={
